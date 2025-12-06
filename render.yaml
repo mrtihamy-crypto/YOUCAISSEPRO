@@ -6,6 +6,7 @@ services:
     region: frankfurt
     databaseName: youcaisse
     databaseUser: youcaisse_user
+    postgresVersion: 15
 
   # Backend API
   - type: web
@@ -13,9 +14,11 @@ services:
     runtime: docker
     region: frankfurt
     plan: free
-    dockerfilePath: ./backend/Dockerfile
-    dockerContext: ./backend
-    buildCommand: echo "Building with Docker"
+    repo: https://github.com/mrtihamy-crypto/YOUCAISSEPRO
+    branch: main
+    rootDir: backend
+    dockerfile: Dockerfile
+    dockerContext: .
     envVars:
       - key: NODE_ENV
         value: production
@@ -25,9 +28,6 @@ services:
         fromDatabase:
           name: you-caisse-db
           property: connectionString
-      - key: JWT_SECRET
-        generateValue: true
-    healthCheckPath: /
 
   # Frontend
   - type: web
@@ -35,9 +35,11 @@ services:
     runtime: docker
     region: frankfurt
     plan: free
-    dockerfilePath: ./frontend/Dockerfile
-    dockerContext: ./frontend
-    buildCommand: echo "Building with Docker"
+    repo: https://github.com/mrtihamy-crypto/YOUCAISSEPRO
+    branch: main
+    rootDir: frontend
+    dockerfile: Dockerfile
+    dockerContext: .
     envVars:
       - key: VITE_API_URL
         fromService:
