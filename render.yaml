@@ -4,9 +4,6 @@ services:
     name: you-caisse-db
     plan: free
     region: frankfurt
-    databaseName: youcaisse
-    databaseUser: youcaisse_user
-    postgresVersion: 15
 
   # Backend API
   - type: web
@@ -17,8 +14,6 @@ services:
     repo: https://github.com/mrtihamy-crypto/YOUCAISSEPRO
     branch: main
     rootDir: backend
-    dockerfile: Dockerfile
-    dockerContext: .
     envVars:
       - key: NODE_ENV
         value: production
@@ -38,8 +33,6 @@ services:
     repo: https://github.com/mrtihamy-crypto/YOUCAISSEPRO
     branch: main
     rootDir: frontend
-    dockerfile: Dockerfile
-    dockerContext: .
     envVars:
       - key: VITE_API_URL
         fromService:
