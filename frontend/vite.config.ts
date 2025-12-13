@@ -5,6 +5,8 @@ import { VitePWA } from 'vite-plugin-pwa'
 // https://vite.dev/config/
 export default defineConfig({
   server: {
+    host: '0.0.0.0',
+    port: 5173,
     middlewareMode: false,
     hmr: {
       protocol: 'ws',
@@ -78,9 +80,5 @@ export default defineConfig({
         enabled: true
       }
     })
-  ],
-  server: {
-    host: '0.0.0.0', // Permet l'accès depuis le réseau local
-    port: 5173
-  }
+  ]
 })

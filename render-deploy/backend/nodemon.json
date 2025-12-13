@@ -1,0 +1,10 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json",
+  "ignore": ["src/**/*.spec.ts"],
+  "exec": "ts-node --transpile-only",
+  "delay": 500,
+  "restartable": "rs",
+  "colors": true,
+  "legacyWatch": false
+}

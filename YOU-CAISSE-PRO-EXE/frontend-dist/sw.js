@@ -1,1 +1,141 @@
-if(!self.define){let e,i={};const n=(n,s)=>(n=new URL(n+".js",s).href,i[n]||new Promise(i=>{if("document"in self){const e=document.createElement("script");e.src=n,e.onload=i,document.head.appendChild(e)}else e=n,importScripts(n),i()}).then(()=>{let e=i[n];if(!e)throw new Error(`Module ${n} didn’t register its module`);return e}));self.define=(s,o)=>{const r=e||("document"in self?document.currentScript.src:"")||location.href;if(i[r])return;let t={};const a=e=>n(e,r),c={module:{uri:r},exports:t,require:a};i[r]=Promise.all(s.map(e=>c[e]||a(e))).then(e=>(o(...e),t))}}define(["./workbox-1d305bb8"],function(e){"use strict";self.skipWaiting(),e.clientsClaim(),e.precacheAndRoute([{url:"vite.svg",revision:"8e3a10e157f75ada21ab742c022d5430"},{url:"registerSW.js",revision:"1872c500de691dce40960bb85481de07"},{url:"index.html",revision:"59466e7dca9f228e1aa10661f84a8c1a"},{url:"icon-512.png",revision:"8e3a10e157f75ada21ab742c022d5430"},{url:"icon-192.svg",revision:"b7ec0e32783ebc2e81f74cb0e668868c"},{url:"icon-192.png",revision:"8e3a10e157f75ada21ab742c022d5430"},{url:"assets/index-C8hdLzqs.js",revision:null},{url:"assets/index-9mmiLbQz.css",revision:null},{url:"icon-192.png",revision:"8e3a10e157f75ada21ab742c022d5430"},{url:"icon-512.png",revision:"8e3a10e157f75ada21ab742c022d5430"},{url:"vite.svg",revision:"8e3a10e157f75ada21ab742c022d5430"},{url:"manifest.webmanifest",revision:"0785ed677f9d11241b28368bd8fd4270"}],{}),e.cleanupOutdatedCaches(),e.registerRoute(new e.NavigationRoute(e.createHandlerBoundToURL("index.html"))),e.registerRoute(/^https:\/\/fonts\.googleapis\.com\/.*/i,new e.CacheFirst({cacheName:"google-fonts-cache",plugins:[new e.ExpirationPlugin({maxEntries:10,maxAgeSeconds:31536e3}),new e.CacheableResponsePlugin({statuses:[0,200]})]}),"GET")});
+/**
+ * Copyright 2018 Google Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// If the loader is already loaded, just stop.
+if (!self.define) {
+  let registry = {};
+
+  // Used for `eval` and `importScripts` where we can't get script URL by other means.
+  // In both cases, it's safe to use a global var because those functions are synchronous.
+  let nextDefineUri;
+
+  const singleRequire = (uri, parentUri) => {
+    uri = new URL(uri + ".js", parentUri).href;
+    return registry[uri] || (
+      
+        new Promise(resolve => {
+          if ("document" in self) {
+            const script = document.createElement("script");
+            script.src = uri;
+            script.onload = resolve;
+            document.head.appendChild(script);
+          } else {
+            nextDefineUri = uri;
+            importScripts(uri);
+            resolve();
+          }
+        })
+      
+      .then(() => {
+        let promise = registry[uri];
+        if (!promise) {
+          throw new Error(`Module ${uri} didn’t register its module`);
+        }
+        return promise;
+      })
+    );
+  };
+
+  self.define = (depsNames, factory) => {
+    const uri = nextDefineUri || ("document" in self ? document.currentScript.src : "") || location.href;
+    if (registry[uri]) {
+      // Module is already loading or loaded.
+      return;
+    }
+    let exports = {};
+    const require = depUri => singleRequire(depUri, uri);
+    const specialDeps = {
+      module: { uri },
+      exports,
+      require
+    };
+    registry[uri] = Promise.all(depsNames.map(
+      depName => specialDeps[depName] || require(depName)
+    )).then(deps => {
+      factory(...deps);
+      return exports;
+    });
+  };
+}
+define(['./workbox-ca84f546'], (function (workbox) { 'use strict';
+
+  self.skipWaiting();
+  workbox.clientsClaim();
+
+  /**
+   * The precacheAndRoute() method efficiently caches and responds to
+   * requests for URLs in the manifest.
+   * See https://goo.gl/S9QRab
+   */
+  workbox.precacheAndRoute([{
+    "url": "vite.svg",
+    "revision": "8e3a10e157f75ada21ab742c022d5430"
+  }, {
+    "url": "registerSW.js",
+    "revision": "1872c500de691dce40960bb85481de07"
+  }, {
+    "url": "index.html",
+    "revision": "072e8c9f06f6212632ca1502d83081f1"
+  }, {
+    "url": "icon-512.png",
+    "revision": "8e3a10e157f75ada21ab742c022d5430"
+  }, {
+    "url": "icon-192.svg",
+    "revision": "b7ec0e32783ebc2e81f74cb0e668868c"
+  }, {
+    "url": "icon-192.png",
+    "revision": "8e3a10e157f75ada21ab742c022d5430"
+  }, {
+    "url": "assets/vendor-DnE5PtM9.js",
+    "revision": null
+  }, {
+    "url": "assets/KitchenDisplay-BmKpSOBO.js",
+    "revision": null
+  }, {
+    "url": "assets/index-BwfKHYn7.js",
+    "revision": null
+  }, {
+    "url": "assets/index-9mmiLbQz.css",
+    "revision": null
+  }, {
+    "url": "assets/Dashboard-CNwhYj3M.js",
+    "revision": null
+  }, {
+    "url": "assets/axios-VSpmzgsF.js",
+    "revision": null
+  }, {
+    "url": "icon-192.png",
+    "revision": "8e3a10e157f75ada21ab742c022d5430"
+  }, {
+    "url": "icon-512.png",
+    "revision": "8e3a10e157f75ada21ab742c022d5430"
+  }, {
+    "url": "vite.svg",
+    "revision": "8e3a10e157f75ada21ab742c022d5430"
+  }, {
+    "url": "manifest.webmanifest",
+    "revision": "0785ed677f9d11241b28368bd8fd4270"
+  }], {});
+  workbox.cleanupOutdatedCaches();
+  workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html")));
+  workbox.registerRoute(/^https:\/\/fonts\.googleapis\.com\/.*/i, new workbox.CacheFirst({
+    "cacheName": "google-fonts-cache",
+    plugins: [new workbox.ExpirationPlugin({
+      maxEntries: 10,
+      maxAgeSeconds: 31536000
+    }), new workbox.CacheableResponsePlugin({
+      statuses: [0, 200]
+    })]
+  }), 'GET');
+
+}));
